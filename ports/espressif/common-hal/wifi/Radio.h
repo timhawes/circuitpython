@@ -54,6 +54,7 @@ typedef struct {
     bool started;
     bool ap_mode;
     bool sta_mode;
+    bool autoreconnect;
     uint8_t retries_left;
     uint8_t starting_retries;
     uint8_t last_disconnect_reason;

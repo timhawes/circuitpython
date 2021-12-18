@@ -77,6 +77,11 @@ static void event_handler(void *arg, esp_event_base_t event_base,
                 wifi_event_sta_disconnected_t *d = (wifi_event_sta_disconnected_t *)event_data;
                 uint8_t reason = d->reason;
                 ESP_LOGW(TAG, "reason %d 0x%02x", reason, reason);
+                if (radio->autoreconnect) {
+                    ESP_LOGI(TAG, "Retrying connect forever");
+                    esp_wifi_connect();
+                    return;
+                }
                 if (radio->retries_left > 0 &&
                     reason != WIFI_REASON_AUTH_FAIL &&
                     reason != WIFI_REASON_NO_AP_FOUND &&

@@ -281,7 +281,12 @@ wifi_radio_error_t common_hal_wifi_radio_connect(wifi_radio_obj_t *self, uint8_t
     esp_wifi_set_config(ESP_IF_WIFI_STA, config);
     self->starting_retries = 5;
     self->retries_left = 5;
+    self->autoreconnect = (timeout < 0) ? 1 : 0;
     esp_wifi_connect();
+
+    if (timeout < 0) {
+        return WIFI_RADIO_ERROR_NONE;
+    }
 
     do {
         RUN_BACKGROUND_TASKS;
